@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+mport React, { useEffect, useRef, useState } from "react";
 import {
   Target, Timer, TrendingUp, BarChart3, CalendarCheck, Sprout,
   Brain, RefreshCw, Fingerprint, Layers, Battery, Repeat,
@@ -40,6 +40,24 @@ const Tokens = () => (
     .grain{
       background-image: radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
       background-size: 3px 3px;
+    }
+    .input-dark{ color:#F6F2E9; }
+    .input-dark::placeholder{ color:#6f6f68; }
+    .input-dark:-webkit-autofill,
+    .input-dark:-webkit-autofill:hover,
+    .input-dark:-webkit-autofill:focus{
+      -webkit-text-fill-color:#F6F2E9 !important;
+      box-shadow: 0 0 0px 1000px #141510 inset !important;
+      transition: background-color 9999s ease-in-out 0s;
+    }
+    .input-light{ color:#1E1E1C; }
+    .input-light::placeholder{ color:#9a9488; }
+    .input-light:-webkit-autofill,
+    .input-light:-webkit-autofill:hover,
+    .input-light:-webkit-autofill:focus{
+      -webkit-text-fill-color:#1E1E1C !important;
+      box-shadow: 0 0 0px 1000px #ffffff inset !important;
+      transition: background-color 9999s ease-in-out 0s;
     }
   `}</style>
 );
@@ -179,7 +197,7 @@ function Reveal({ children, className = "" }) {
 const LEMONSQUEEZY_STORE = "building-above-average";
 const THANK_YOU_URL = "https://buildingaboveaverage.com/thank-you-newsletter";
 
-function NewsletterForm({ variant = "outline", label = "Join free", theme = "dark" }) {
+function NewsletterForm({ variant = "outline", label = "Join free", theme = "dark", rounded = false }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // idle | loading | done | error
 
@@ -222,13 +240,13 @@ function NewsletterForm({ variant = "outline", label = "Join free", theme = "dar
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@email.com"
-        className="flex-1 text-sm px-3 py-3 bg-transparent border outline-none"
-        style={theme === "light" ? { borderColor: "#d8d2c2", color: "#1E1E1C" } : { borderColor: "#3a3a35", color: "#F6F2E9" }}
+        className={`flex-1 text-sm px-4 py-3 bg-transparent border outline-none ${theme === "light" ? "input-light" : "input-dark"} ${rounded ? "rounded-full" : ""}`}
+        style={theme === "light" ? { borderColor: "#d8d2c2" } : { borderColor: "#3a3a35" }}
       />
       <button
         type="submit"
         disabled={status === "loading"}
-        className="text-sm font-semibold uppercase tracking-wide px-5 py-3 transition-opacity hover:opacity-90 whitespace-nowrap"
+        className={`text-sm font-semibold uppercase tracking-wide px-6 py-3 transition-opacity hover:opacity-90 whitespace-nowrap ${rounded ? "rounded-full" : ""}`}
         style={buttonStyles[variant]}
       >
         {status === "loading" ? "Joining…" : label}
@@ -402,14 +420,14 @@ function Hero() {
       <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
         <Reveal>
           <div className="inline-block text-xs uppercase tracking-widest border border-charcoal px-4 py-2 mb-8" style={{ color: "#a3a29b" }}>
-            66 people already reading every Friday
+            66 members already applying the method, every Friday
           </div>
           <h1 className="f-serif text-4xl sm:text-6xl leading-tight max-w-3xl mx-auto mb-6">
             <span className="text-lime">Building</span> a life that operates <span className="text-lime">above average</span>
           </h1>
           <p className="text-base sm:text-lg max-w-xl mx-auto mb-12" style={{ color: "#a3a29b" }}>
             A free weekly newsletter to sharpen your thinking, and Life OS, the dashboard
-            to run your habits, goals, and deep work in real time — from $5.99/month for subscribers.
+            to run your habits, goals, and deep work in real time — from $5.99/month for early access.
           </p>
         </Reveal>
 
@@ -425,11 +443,20 @@ function Hero() {
                 free when you join.
               </p>
               <NewsletterForm variant="outline" />
+              <a
+                href="https://www.linkedin.com/newsletters/building-above-average-7427341129613852672"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs mt-3 hover:text-lime transition-colors"
+                style={{ color: "#7a7a73" }}
+              >
+                Read past editions on LinkedIn &rarr;
+              </a>
             </div>
           </Reveal>
           <Reveal className="delay-100">
             <div className="border-2 border-lime bg-charcoal-soft p-7 h-full flex flex-col relative">
-              <span className="f-hand absolute -top-4 right-6 bg-lime text-charcoal text-sm font-semibold px-3 py-1 rotate-2" style={{ transform: "rotate(-3deg)" }}>full system</span>
+              <span className="absolute -top-3 right-6 text-[10px] font-semibold uppercase tracking-widest px-3 py-1" style={{ backgroundColor: "#1E1E1C", color: "#CFF43A", border: "1px solid rgba(207,244,58,0.3)" }}>Full system</span>
               <Target size={20} className="text-lime mb-4" strokeWidth={1.5} />
               <h2 className="f-serif text-xl mb-1">Life OS</h2>
               <div className="flex items-baseline gap-2 mb-1">
@@ -437,7 +464,7 @@ function Hero() {
                 <span className="text-lime text-lg font-semibold">$5.99 / month</span>
               </div>
               <p className="text-[11px] uppercase tracking-wide mb-4" style={{ color: "#8FAE1F" }}>
-                $5.99 for newsletter subscribers · $7.99 otherwise
+                $5.99 for early access · $7.99 after launch
               </p>
               <p className="text-sm mb-4 flex-1" style={{ color: "#a3a29b" }}>
                 Habits, goals, deep work, health, mood, and business, all in one
@@ -551,7 +578,7 @@ function LeadMagnet() {
             <p className="text-[11px] mb-3" style={{ color: "#9a9488" }}>
               PDF · 12 pages · 5 min read · joined by 66 readers
             </p>
-            <NewsletterForm variant="solid" label="Claim your free PDF" />
+            <NewsletterForm variant="solid" theme="light" label="Claim your free PDF" />
           </div>
         </Reveal>
         <Reveal className="delay-100">
@@ -565,6 +592,95 @@ function LeadMagnet() {
           </p>
           <div className="max-w-sm">
             <NewsletterForm variant="solid" theme="light" label="Join the newsletter" />
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WhatsInside() {
+  const modules = [
+    "Dashboard", "Habits", "Goals", "Tasks", "Journal", "Deep Work",
+    "Learning", "Health", "Mood", "Business", "Reading", "Content",
+    "Analytics", "AI Insights", "Monthly Report", "Calendar", "Data Vault",
+  ];
+  return (
+    <section className="bg-charcoal text-cream py-24 border-t border-charcoal">
+      <div className="max-w-4xl mx-auto px-6">
+        <Reveal>
+          <p className="text-lime text-xs uppercase tracking-widest text-center mb-3">What you get access to</p>
+          <h2 className="f-serif text-3xl sm:text-4xl text-center mb-4">Everything inside Life OS</h2>
+          <p className="text-sm text-center mb-12 max-w-lg mx-auto" style={{ color: "#a3a29b" }}>
+            One dashboard, 17 modules, all connected to the same data. No separate
+            apps for habits, tasks, journaling, and analytics.
+          </p>
+        </Reveal>
+        <Reveal>
+          <div className="flex flex-wrap justify-center gap-3">
+            {modules.map((m) => (
+              <span
+                key={m}
+                className="text-sm px-4 py-2 border"
+                style={{ borderColor: "#2c2c27", color: "#e9e7de", backgroundColor: "#141510" }}
+              >
+                {m}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function WaitlistSection() {
+  return (
+    <section className="hero-bg grain text-cream py-20 sm:py-28 relative overflow-hidden border-b border-charcoal">
+      <InteractiveBackground />
+      <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
+        <Reveal>
+          <div
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest font-semibold px-4 py-2 mb-8"
+            style={{ border: "1px solid rgba(207,244,58,0.35)", color: "#CFF43A", backgroundColor: "rgba(207,244,58,0.06)" }}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: "#CFF43A" }}></span>
+              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: "#CFF43A" }}></span>
+            </span>
+            66 members already applying the method, every Friday
+          </div>
+
+          <h2 className="f-serif leading-[1.05] mb-6" style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}>
+            Request early access.
+            <br />
+            <span className="text-lime">No cost to apply.</span>
+          </h2>
+
+          <p className="text-base sm:text-lg max-w-lg mx-auto mb-10" style={{ color: "#a3a29b" }}>
+            Life OS opens to a small number of members before the public launch.
+            Members lock in <b style={{ color: "#F6F2E9" }}>$5.99/month</b> for
+            good &mdash; the price moves to <s style={{ color: "#6f6f68" }}>$7.99</s> for everyone after.
+          </p>
+
+          <div className="max-w-md mx-auto mb-8">
+            <div className="p-2 rounded-full" style={{ border: "1px solid rgba(207,244,58,0.3)", backgroundColor: "rgba(20,21,16,0.6)", backdropFilter: "blur(6px)" }}>
+              <NewsletterForm variant="lime" label="Request access" rounded />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm">
+            <span style={{ color: "#7a7a73" }}>Early access reviewed personally, not automatic</span>
+            <span style={{ color: "#3a3a35" }}>·</span>
+            <a
+              href="https://www.linkedin.com/in/salvador-evangelho-b204b92a3/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-medium hover:text-lime transition-colors"
+              style={{ color: "#e9e7de" }}
+            >
+              <Linkedin size={16} /> Follow the build on LinkedIn
+            </a>
           </div>
         </Reveal>
       </div>
@@ -696,8 +812,8 @@ function Pricing() {
           <p className="text-xs uppercase tracking-widest mb-3 text-center" style={{ color: "#9a9488" }}>Simple pricing</p>
           <h2 className="f-serif text-3xl text-charcoal mb-3 text-center">One plan. Everything included.</h2>
           <p className="text-sm mb-10 max-w-md mx-auto text-center" style={{ color: "#5a5850" }}>
-            Newsletter readers get $5.99/month, permanently, not a limited-time trick.
-            It's a thank you for being on the list before Life OS existed.
+            Join now and $5.99/month is locked in for good. Once Life OS fully launches,
+            the price moves to $7.99/month for everyone new.
           </p>
         </Reveal>
         <div className="grid sm:grid-cols-2 gap-8">
@@ -712,11 +828,20 @@ function Pricing() {
               <li className="flex items-start gap-2"><Check size={15} className="mt-0.5 flex-none" style={{ color: "#8FAE1F" }} />Unsubscribe anytime</li>
             </ul>
             <NewsletterForm variant="outlineLight" theme="light" />
+            <a
+              href="https://www.linkedin.com/newsletters/building-above-average-7427341129613852672"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs mt-3 text-center hover:opacity-70 transition-opacity"
+              style={{ color: "#9a9488" }}
+            >
+              Read past editions on LinkedIn &rarr;
+            </a>
           </div>
         </Reveal>
         <Reveal className="delay-100">
           <div className="border-2 p-8 h-full flex flex-col relative bg-white" style={{ borderColor: "#1E1E1C" }}>
-            <span className="f-hand absolute -top-4 right-6 bg-lime text-charcoal text-base font-semibold px-3 py-1" style={{ transform: "rotate(-3deg)" }}>most complete</span>
+            <span className="absolute -top-3 right-6 text-[10px] font-semibold uppercase tracking-widest px-3 py-1" style={{ backgroundColor: "#1E1E1C", color: "#CFF43A" }}>Most complete</span>
             <Target size={20} className="mb-4" style={{ color: "#5a5850" }} strokeWidth={1.5} />
             <h3 className="f-serif text-2xl text-charcoal mb-1">Life OS</h3>
             <div className="flex items-baseline gap-2 mb-1">
@@ -724,7 +849,7 @@ function Pricing() {
               <span className="f-serif text-3xl text-charcoal">$5.99<span className="text-base" style={{ color: "#8a887c" }}>/mo</span></span>
             </div>
             <p className="text-[11px] uppercase tracking-wide mb-4" style={{ color: "#8FAE1F" }}>
-              $5.99 for newsletter subscribers · $7.99 otherwise
+              $5.99 for early access · $7.99 after launch
             </p>
             <ul className="text-left text-sm space-y-2 mb-6 flex-1" style={{ color: "#4a483f" }}>
               <li className="flex items-start gap-2"><Check size={15} className="mt-0.5 flex-none" style={{ color: "#8FAE1F" }} />Full Life OS dashboard, real time</li>
@@ -827,7 +952,7 @@ function FinalCTA() {
       <div className="max-w-2xl mx-auto px-6 text-center relative z-10">
         <Reveal>
           <h2 className="f-serif text-3xl sm:text-5xl mb-5">Stop drifting. Start building.</h2>
-          <p className="mb-10" style={{ color: "#a3a29b" }}>Free newsletter every Friday, or Life OS from $5.99 a month for subscribers.</p>
+          <p className="mb-10" style={{ color: "#a3a29b" }}>Free newsletter every Friday, or Life OS from $5.99 a month, locked in for early access.</p>
           <div className="flex flex-wrap justify-center items-start gap-4">
             <div className="w-full sm:w-auto sm:max-w-xs">
               <NewsletterForm variant="outlineDark" theme="dark" />
@@ -864,7 +989,7 @@ function StickyMobileCTA() {
       <div className="text-cream text-xs">
         <span className="line-through mr-1" style={{ color: "#6f6f68" }}>$7.99</span>
         <span className="text-lime font-semibold">$5.99/mo</span>
-        <span className="ml-1" style={{ color: "#7a7a73" }}>subscribers</span>
+        <span className="ml-1" style={{ color: "#7a7a73" }}>early access</span>
       </div>
       <a href="https://building-above-average.lemonsqueezy.com/checkout/buy/40cf8f4b-22b4-493b-bce2-de9c5f6bcb3b" target="_blank" rel="noopener noreferrer" className="bg-lime text-charcoal text-xs font-semibold uppercase tracking-wide px-4 py-2">
         Get Life OS
@@ -895,33 +1020,59 @@ function ExitIntentPopup() {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center p-6"
-      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+      style={{ backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(2px)" }}
       onClick={() => { setShow(false); setDismissed(true); }}
     >
       <div
-        className="relative max-w-sm w-full p-8 text-center"
-        style={{ backgroundColor: "#0a0d09", border: "1px solid #2c2c27" }}
+        className="relative max-w-md w-full overflow-hidden"
+        style={{
+          background: "radial-gradient(ellipse 100% 80% at 50% -10%, rgba(207,244,58,0.16), transparent 60%), #0a0d09",
+          border: "1px solid rgba(207,244,58,0.18)",
+          boxShadow: "0 30px 80px rgba(0,0,0,0.6)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => { setShow(false); setDismissed(true); }}
-          className="absolute top-3 right-3 text-xs"
+          className="absolute top-4 right-4 text-lg leading-none hover:opacity-70 transition-opacity"
           style={{ color: "#7a7a73" }}
           aria-label="Close"
         >
           ✕
         </button>
-        <TriangleMark size={22} />
-        <p className="text-[10px] uppercase tracking-widest font-semibold mt-4 mb-2" style={{ color: "#CFF43A" }}>
-          Wait, before you go
-        </p>
-        <h3 className="f-serif text-2xl mb-3" style={{ color: "#F6F2E9" }}>
-          Get "Attention is the new currency" free.
-        </h3>
-        <p className="text-sm mb-6" style={{ color: "#a3a29b" }}>
-          Join the free newsletter and this PDF lands in your inbox instantly, plus $5.99 pricing on Life OS.
-        </p>
-        <NewsletterForm variant="lime" label="Send me the PDF" />
+
+        <div className="px-8 pt-10 pb-8 text-center">
+          <div className="flex justify-center mb-6">
+            <TriangleMark size={30} />
+          </div>
+
+          <p className="text-[10px] uppercase tracking-[0.2em] font-semibold mb-4" style={{ color: "#CFF43A" }}>
+            Wait, before you go
+          </p>
+
+          <h3 className="f-serif leading-tight mb-4" style={{ color: "#F6F2E9", fontSize: "1.75rem" }}>
+            Get <span style={{ color: "#CFF43A" }}>"Attention Is The New Currency"</span> free.
+          </h3>
+
+          <p className="text-sm leading-relaxed mb-5" style={{ color: "#a3a29b" }}>
+            One system inside this guide can turn a single 30 minute session into
+            two months of content. Join the free newsletter and it lands in your
+            inbox instantly, plus $5.99 pricing on Life OS.
+          </p>
+
+          <div
+            className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 mb-6"
+            style={{ border: "1px solid rgba(207,244,58,0.3)", color: "#CFF43A", backgroundColor: "rgba(207,244,58,0.06)" }}
+          >
+            30 min in &rarr; 2 months of content out
+          </div>
+
+          <NewsletterForm variant="lime" label="Send me the PDF" rounded />
+
+          <p className="text-[11px] mt-5" style={{ color: "#55554e" }}>
+            No spam. Unsubscribe anytime.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -960,11 +1111,13 @@ export default function BAALandingFinal() {
     <div className="baa-root font-sans scroll-smooth">
       <Tokens />
       <Navbar />
+      <WaitlistSection />
       <Hero />
       <LeadMagnet />
       <Principles />
       <Benefits />
       <Comparison />
+      <WhatsInside />
       <Testimonials />
       <Pricing />
       <FAQ />
